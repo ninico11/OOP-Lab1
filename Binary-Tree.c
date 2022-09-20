@@ -10,6 +10,15 @@ struct node *new_node(int element){
  temp->left = temp->right = NULL;
  return temp;
 }
+struct node *insertBST(struct node *root, int val){
+    if(root == NULL)
+        return new_node(val);
+    if(root->element < val)
+        root->right = insertBST(root->right,val);
+    else if(root->element > val)
+        root->left = insertBST(root->left,val);
+    return root;
+}
 void inorder(struct node* root){
  if (root != NULL) {
   inorder(root->left);
@@ -188,7 +197,7 @@ int main(){
           break;
      case 9:printf(" Input the filename to be opened : ");
             scanf("%s",fname);
-            fp = fopen("tree.txt", "r");
+            fp = fopen(fname, "r");
             int* tree=malloc(100*sizeof(*tree));
             int j=0;
             int num;
@@ -200,9 +209,9 @@ int main(){
              printf("%d ",tree[i]);
             };
             printf("\n");
-            int ind=0;
-            root=new_node(tree[0]);
-            arrayToBST(tree,root,&ind);
+            for(int i=0;i<j;i++){
+             root=insertBST(root,tree[i]);
+            };
             fclose(fp);
           break;
      case 10: printf("Goodbye\n");
